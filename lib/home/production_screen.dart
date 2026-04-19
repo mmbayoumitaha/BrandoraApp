@@ -88,46 +88,48 @@ class _ProductionScreenState extends State<ProductionScreen> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20),
-            Text("Add New Product", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: primaryColor)),
-            const SizedBox(height: 30),
-
-            Center(child: _buildPhotoUploadSection()),
-            const SizedBox(height: 30),
-
-            _buildLabel("PRODUCT NAME"),
-            _buildField("e.g. Polyethylene Tubing", controller: _productNameController),
-            const SizedBox(height: 20),
-
-            _buildLabel("QUANTITY"),
-            _buildField("0", controller: _productQtyController, isNumber: true),
-            const SizedBox(height: 20),
-
-            if (!_includesMaterials) ...[
-              _buildLabel("UNIT PRICE (\$)"),
-              _buildField("0.00", controller: _manualPriceController, isNumber: true),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               const SizedBox(height: 20),
-            ],
-
-            _buildToggleCard(),
-            const SizedBox(height: 25),
-
-            if (_includesMaterials) ...[
-              _buildMaterialsUsedCard(availableMaterials, materialsData),
+              Text("Add New Product", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: primaryColor)),
+              const SizedBox(height: 30),
+        
+              Center(child: _buildPhotoUploadSection()),
+              const SizedBox(height: 30),
+        
+              _buildLabel("PRODUCT NAME"),
+              _buildField("e.g. Polyethylene Tubing", controller: _productNameController),
+              const SizedBox(height: 20),
+        
+              _buildLabel("QUANTITY"),
+              _buildField("0", controller: _productQtyController, isNumber: true),
+              const SizedBox(height: 20),
+        
+              if (!_includesMaterials) ...[
+                _buildLabel("UNIT PRICE (\$)"),
+                _buildField("0.00", controller: _manualPriceController, isNumber: true),
+                const SizedBox(height: 20),
+              ],
+        
+              _buildToggleCard(),
               const SizedBox(height: 25),
-              _buildPricingCard(),
+        
+              if (_includesMaterials) ...[
+                _buildMaterialsUsedCard(availableMaterials, materialsData),
+                const SizedBox(height: 25),
+                _buildPricingCard(),
+              ],
+        
+              const SizedBox(height: 30),
+              _buildMainButton(productsData, materialsData),
+              const SizedBox(height: 40),
             ],
-
-            const SizedBox(height: 30),
-            _buildMainButton(productsData, materialsData),
-            const SizedBox(height: 40),
-          ],
+          ),
         ),
       ),
     );

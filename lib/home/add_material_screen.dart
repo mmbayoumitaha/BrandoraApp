@@ -48,141 +48,143 @@ class _AddMaterialScreenState extends State<AddMaterialScreen> {
           style: const TextStyle(color: Color(0xFF3F51B5), fontWeight: FontWeight.bold),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(
-          left: 24,
-          right: 24,
-          top: 24,
-          bottom: MediaQuery.of(context).viewInsets.bottom + 24,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildLabel("MATERIAL NAME"),
-            _buildTextField(hint: "e.g. Recycled Granules", controller: nameController),
-            
-            const SizedBox(height: 24),
-
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildLabel("QUANTITY"),
-                      _buildTextField(
-                        hint: "e.g. 2500", 
-                        controller: quantityController, 
-                        isNumber: true,
-                        // يسمح فقط بالأرقام والعلامة العشرية
-                        inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))],
-                      ),
-                    ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.only(
+            left: 24,
+            right: 24,
+            top: 24,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildLabel("MATERIAL NAME"),
+              _buildTextField(hint: "e.g. Recycled Granules", controller: nameController),
+              
+              const SizedBox(height: 24),
+        
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildLabel("QUANTITY"),
+                        _buildTextField(
+                          hint: "e.g. 2500", 
+                          controller: quantityController, 
+                          isNumber: true,
+                          // يسمح فقط بالأرقام والعلامة العشرية
+                          inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildLabel("UNIT"),
-                      _buildDropdown(),
-                    ],
+                  const SizedBox(width: 16),
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildLabel("UNIT"),
+                        _buildDropdown(),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 24),
-
-            _buildLabel("UNIT PRICE (\$)"),
-            _buildTextField(
-              hint: "e.g. 5.80", 
-              controller: priceController, 
-              isNumber: true,
-              prefix: const Icon(Icons.attach_money, size: 18, color: Color(0xFF3F51B5)),
-              // يسمح فقط بالأرقام والعلامة العشرية
-              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))],
-            ),
-
-            const SizedBox(height: 30),
-
-            Row(
-              children: [
-                const Icon(Icons.info_outline, color: Colors.redAccent, size: 18),
-                const SizedBox(width: 8),
-                const Expanded(
-                  child: Text(
-                    "All fields are required for inventory synchronization",
-                    style: TextStyle(color: Colors.redAccent, fontSize: 13),
+                ],
+              ),
+        
+              const SizedBox(height: 24),
+        
+              _buildLabel("UNIT PRICE (\$)"),
+              _buildTextField(
+                hint: "e.g. 5.80", 
+                controller: priceController, 
+                isNumber: true,
+                prefix: const Icon(Icons.attach_money, size: 18, color: Color(0xFF3F51B5)),
+                // يسمح فقط بالأرقام والعلامة العشرية
+                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))],
+              ),
+        
+              const SizedBox(height: 30),
+        
+              Row(
+                children: [
+                  const Icon(Icons.info_outline, color: Colors.redAccent, size: 18),
+                  const SizedBox(width: 8),
+                  const Expanded(
+                    child: Text(
+                      "All fields are required for inventory synchronization",
+                      style: TextStyle(color: Colors.redAccent, fontSize: 13),
+                    ),
                   ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 30),
-
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  // تحسين الـ Validation للتأكد من أنها أرقام صالحة
-                  final String name = nameController.text.trim();
-                  final String qtyStr = quantityController.text.trim();
-                  final String priceStr = priceController.text.trim();
-
-                  if (name.isNotEmpty &&
-                      qtyStr.isNotEmpty &&
-                      selectedUnit != null &&
-                      priceStr.isNotEmpty) {
-                    
-                    // تأكيد إضافي أن الكمية والسعر أرقام فعلاً قبل الحفظ
-                    if (double.tryParse(qtyStr) == null || double.tryParse(priceStr) == null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please enter valid numbers for quantity and price'), backgroundColor: Colors.orange),
+                ],
+              ),
+        
+              const SizedBox(height: 30),
+        
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // تحسين الـ Validation للتأكد من أنها أرقام صالحة
+                    final String name = nameController.text.trim();
+                    final String qtyStr = quantityController.text.trim();
+                    final String priceStr = priceController.text.trim();
+        
+                    if (name.isNotEmpty &&
+                        qtyStr.isNotEmpty &&
+                        selectedUnit != null &&
+                        priceStr.isNotEmpty) {
+                      
+                      // تأكيد إضافي أن الكمية والسعر أرقام فعلاً قبل الحفظ
+                      if (double.tryParse(qtyStr) == null || double.tryParse(priceStr) == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Please enter valid numbers for quantity and price'), backgroundColor: Colors.orange),
+                        );
+                        return;
+                      }
+        
+                      final materialsData = Provider.of<MaterialsData>(context, listen: false);
+                      
+                      final newMaterial = MaterialModel(
+                        name: name,
+                        quantity: qtyStr,
+                        unit: selectedUnit!,
+                        price: priceStr,
                       );
-                      return;
-                    }
-
-                    final materialsData = Provider.of<MaterialsData>(context, listen: false);
-                    
-                    final newMaterial = MaterialModel(
-                      name: name,
-                      quantity: qtyStr,
-                      unit: selectedUnit!,
-                      price: priceStr,
-                    );
-
-                    if (widget.materialToEdit == null) {
-                      materialsData.addMaterial(newMaterial);
+        
+                      if (widget.materialToEdit == null) {
+                        materialsData.addMaterial(newMaterial);
+                      } else {
+                        materialsData.materials[widget.index!] = newMaterial;
+                        materialsData.notifyListeners();
+                      }
+        
+                      Navigator.pop(context);
                     } else {
-                      materialsData.materials[widget.index!] = newMaterial;
-                      materialsData.notifyListeners();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Please fill all fields'), backgroundColor: Colors.red),
+                      );
                     }
-
-                    Navigator.pop(context);
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Please fill all fields'), backgroundColor: Colors.red),
-                    );
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryColor,
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                  elevation: 0,
-                ),
-                child: Text(
-                  widget.materialToEdit == null ? "Save Material" : "Update Material",
-                  style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryColor,
+                    padding: const EdgeInsets.symmetric(vertical: 18),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    elevation: 0,
+                  ),
+                  child: Text(
+                    widget.materialToEdit == null ? "Save Material" : "Update Material",
+                    style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

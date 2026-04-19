@@ -37,14 +37,16 @@ class _OnboardingMainState extends State<OnboardingMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        controller: _pageController,
-        physics: const BouncingScrollPhysics(), //دي علشان اقدر اسحب بالايد
-        children: [
-          OnboardingStep1(onNext: _onNext, onSkip: _onSkip),
-          OnboardingStep2(onNext: _onNext, onBack: _onBack, onSkip: _onSkip),
-          OnboardingStep3(onBack: _onBack), 
-        ],
+      body: SafeArea(
+        child: PageView(
+          controller: _pageController,
+          physics: const BouncingScrollPhysics(), //دي علشان اقدر اسحب بالايد
+          children: [
+            OnboardingStep1(onNext: _onNext, onSkip: _onSkip),
+            OnboardingStep2(onNext: _onNext, onBack: _onBack, onSkip: _onSkip),
+            OnboardingStep3(onBack: _onBack), 
+          ],
+        ),
       ),
     );
   }

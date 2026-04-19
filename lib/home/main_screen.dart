@@ -24,22 +24,24 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex], // بيعرض الصفحة بناء على الرقم
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          border: Border(top: BorderSide(color: Color(0xFFEEEEEE))),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _navItem(Icons.store_outlined, "MARKET", 0),
-            _navItem(Icons.grid_view_rounded, "DASHBOARD", 1),
-            _navItem(Icons.inventory_2, "INVENTORY", 2),
-            _navItem(Icons.precision_manufacturing_outlined, "PRODUCTION", 3),
-            _navItem(Icons.person_outline, "ACCOUNT", 4),
-          ],
+      body: SafeArea(child: _pages[_selectedIndex]),
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            border: Border(top: BorderSide(color: Color(0xFFEEEEEE))),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _navItem(Icons.store_outlined, "MARKET", 0),
+              _navItem(Icons.grid_view_rounded, "DASHBOARD", 1),
+              _navItem(Icons.inventory_2, "INVENTORY", 2),
+              _navItem(Icons.precision_manufacturing_outlined, "PRODUCTION", 3),
+              _navItem(Icons.person_outline, "ACCOUNT", 4),
+            ],
+          ),
         ),
       ),
     );
