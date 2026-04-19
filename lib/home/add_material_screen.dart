@@ -7,7 +7,7 @@ class AddMaterialScreen extends StatefulWidget {
   final MaterialModel? materialToEdit;
   final int? index;
 
-  const AddMaterialScreen({Key? key, this.materialToEdit, this.index}) : super(key: key);
+  const AddMaterialScreen({super.key, this.materialToEdit, this.index});
 
   @override
   State<AddMaterialScreen> createState() => _AddMaterialScreenState();
@@ -111,11 +111,11 @@ class _AddMaterialScreenState extends State<AddMaterialScreen> {
         
               const SizedBox(height: 30),
         
-              Row(
+              const Row(
                 children: [
-                  const Icon(Icons.info_outline, color: Colors.redAccent, size: 18),
-                  const SizedBox(width: 8),
-                  const Expanded(
+                  Icon(Icons.info_outline, color: Colors.redAccent, size: 18),
+                  SizedBox(width: 8),
+                  Expanded(
                     child: Text(
                       "All fields are required for inventory synchronization",
                       style: TextStyle(color: Colors.redAccent, fontSize: 13),
@@ -160,8 +160,7 @@ class _AddMaterialScreenState extends State<AddMaterialScreen> {
                       if (widget.materialToEdit == null) {
                         materialsData.addMaterial(newMaterial);
                       } else {
-                        materialsData.materials[widget.index!] = newMaterial;
-                        materialsData.notifyListeners();
+                        materialsData.updateExistingMaterial(widget.index!, newMaterial);
                       }
         
                       Navigator.pop(context);

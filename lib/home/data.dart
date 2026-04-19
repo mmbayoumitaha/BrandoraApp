@@ -20,7 +20,7 @@ class MaterialModel {
 // data.dart
 
 class MaterialsData extends ChangeNotifier {
-  List<MaterialModel> _materials = [];
+  final List<MaterialModel> _materials = [];
 
   List<MaterialModel> get materials => _materials;
 
@@ -107,7 +107,7 @@ class ProductModel {
 }
 
 class ProductsData extends ChangeNotifier {
-  List<ProductModel> _products = [];
+  final List<ProductModel> _products = [];
   List<ProductModel> get products => _products;
 
   void addProduct(ProductModel product) {

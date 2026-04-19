@@ -5,7 +5,7 @@ import 'package:winterproject/features/auth/role_selection_screen.dart';
 //زودت validation for register 
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -143,6 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               email: emailController.text.trim(),
                               password: passwordController.text.trim(),
                             );
+                            if (!context.mounted) return;
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text("Login Successful")),
                             );
@@ -183,15 +184,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               email: email,
                               password: password,
                             );
+                            if (!context.mounted) return;
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text("Account Created Successfully")),
                             );
-                                          if (mounted) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const RoleSelectionScreen()),
-            );
-          }
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => const RoleSelectionScreen()),
+                            );
                           }
                           // بعد تسجيل الدخول تفتح الصفحة الرئيسية
                           // Navigator.pushReplacement(
@@ -199,6 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           //   MaterialPageRoute(builder: (_) => const HomeScreen()),
                           // );
                         } on FirebaseAuthException catch (e) {
+                          if (!context.mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text(e.message ?? "Authentication Failed")),
                           );
@@ -273,7 +274,7 @@ class _LoginScreenState extends State<LoginScreen> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.05),
+            color: Colors.grey.withValues(alpha: 0.05),
             spreadRadius: 1,
             blurRadius: 10,
             offset: const Offset(0, 2),

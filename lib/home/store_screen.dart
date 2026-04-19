@@ -4,14 +4,14 @@ import 'package:provider/provider.dart';
 import 'data.dart';
 
 class StoreScreen extends StatelessWidget {
-  const StoreScreen({Key? key}) : super(key: key);
+  const StoreScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final productsData = Provider.of<ProductsData>(context);
     final materialsData = Provider.of<MaterialsData>(context, listen: false);
     final products = productsData.products;
-    final Color primaryColor = const Color(0xFF3F51B5);
+    const Color primaryColor = Color(0xFF3F51B5);
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FE),
@@ -19,7 +19,7 @@ class StoreScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         automaticallyImplyLeading: false, 
-        title: Text("Brandora Store", 
+        title: const Text("Brandora Store", 
             style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
@@ -41,7 +41,7 @@ class StoreScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                              color: Colors.black.withOpacity(0.04), 
+                              color: Colors.black.withValues(alpha: 0.04), 
                               blurRadius: 10,
                               offset: const Offset(0, 4))
                         ],
@@ -64,7 +64,7 @@ class StoreScreen extends StatelessWidget {
                                     : null,
                               ),
                               child: product.imagePath == null
-                                  ? Icon(Icons.shopping_bag_outlined, 
+                                  ? const Icon(Icons.shopping_bag_outlined, 
                                       color: primaryColor, size: 40)
                                   : null,
                             ),
@@ -89,7 +89,7 @@ class StoreScreen extends StatelessWidget {
                                   children: [
                                     Text(
                                       "\$${product.price}",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: primaryColor,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),

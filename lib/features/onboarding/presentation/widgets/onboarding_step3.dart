@@ -12,6 +12,8 @@ class OnboardingStep3 extends StatelessWidget {
 
     await prefs.setBool('seenOnboarding', true);
 
+    if (!context.mounted) return;
+
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(

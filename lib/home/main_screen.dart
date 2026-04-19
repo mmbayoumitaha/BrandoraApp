@@ -3,7 +3,7 @@ import 'inventory_screen.dart'; // ملف الانفنتوري بتاعك
 import 'production_screen.dart'; // ملف البرودكشن بتاعك
 import 'store_screen.dart';
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
