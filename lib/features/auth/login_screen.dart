@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:winterproject/features/auth/role_selection_screen.dart';
 
-//زودت validation for register 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -13,7 +11,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _obscurePassword = true;
-  bool isLogin = true; // لو هو موجود فعلا ترو ولو لسه هيسجل من جديد اذا فولس
+  bool isLogin = true;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -34,7 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Form(
               key: _formKey,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Column(
@@ -63,6 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   const SizedBox(height: 40),
+
                   Text(
                     isLogin ? 'Welcome Back' : 'Create Account',
                     textAlign: TextAlign.center,
@@ -72,7 +70,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: textColor,
                     ),
                   ),
+
                   const SizedBox(height: 8),
+
                   Text(
                     isLogin
                         ? 'Login to your Brandora account'
@@ -80,7 +80,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 15, color: greyTextColor),
                   ),
+
                   const SizedBox(height: 40),
+
                   Text(
                     'Email Address',
                     style: TextStyle(
@@ -89,13 +91,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: textColor,
                     ),
                   ),
+
                   const SizedBox(height: 8),
+
                   _buildTextField(
                     hintText: 'name@example.com',
                     prefixIcon: Icons.email_outlined,
                     controller: emailController,
                   ),
+
                   const SizedBox(height: 20),
+
                   Text(
                     'Password',
                     style: TextStyle(
@@ -104,25 +110,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: textColor,
                     ),
                   ),
+
                   const SizedBox(height: 8),
+
                   _buildTextField(
                     hintText: 'Enter your password',
                     prefixIcon: Icons.lock_outline,
                     controller: passwordController,
                     isPassword: true,
                   ),
+
                   if (isLogin)
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                        onPressed: () {
-                          // دي لو نسي الباسوورد بس معرفش ايه اللى هيحصل
-                        },
-                        style: TextButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          minimumSize: Size.zero,
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        ),
+                        onPressed: () {},
                         child: Text(
                           'Forgot Password?',
                           style: TextStyle(
@@ -132,24 +134,38 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
+
                   const SizedBox(height: 24),
+
                   ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         try {
                           if (isLogin) {
-                            // Login
+                            // 🔥 LOGIN
                             await FirebaseAuth.instance.signInWithEmailAndPassword(
                               email: emailController.text.trim(),
                               password: passwordController.text.trim(),
                             );
+
                             if (!context.mounted) return;
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text("Login Successful")),
                             );
-              
+
+                            // ✅ الانتقال للصفحة الجديدة
+                            await Future.delayed(const Duration(milliseconds: 500));
+
+                            if (!context.mounted) return;
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const RoleSelectionScreen(),
+                              ),
+                            );
+
                           } else {
-                            
+                            // 🔥 REGISTER
                             String email = emailController.text.trim();
                             String password = passwordController.text.trim();
 
@@ -160,12 +176,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               return;
                             }
 
-                            if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$').hasMatch(email)) {
+                            if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+                                .hasMatch(email)) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text("Please enter a valid email address")),
                               );
                               return;
                             }
+
                             if (password.contains(' ')) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text("Password cannot contain spaces")),
@@ -175,7 +193,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             if (!RegExp(r'^(?=.*[A-Z])(?=.*\d).+$').hasMatch(password)) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Password must contain at least one uppercase letter and one number")),
+                                const SnackBar(
+                                    content: Text(
+                                        "Password must contain at least one uppercase letter and one number")),
                               );
                               return;
                             }
@@ -184,20 +204,22 @@ class _LoginScreenState extends State<LoginScreen> {
                               email: email,
                               password: password,
                             );
+
                             if (!context.mounted) return;
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text("Account Created Successfully")),
                             );
+
+                            await Future.delayed(const Duration(milliseconds: 500));
+
+                            if (!context.mounted) return;
                             Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => const RoleSelectionScreen()),
+                              MaterialPageRoute(
+                                builder: (context) => const RoleSelectionScreen(),
+                              ),
                             );
                           }
-                          // بعد تسجيل الدخول تفتح الصفحة الرئيسية
-                          // Navigator.pushReplacement(
-                          //   context,
-                          //   MaterialPageRoute(builder: (_) => const HomeScreen()),
-                          // );
                         } on FirebaseAuthException catch (e) {
                           if (!context.mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -213,7 +235,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      elevation: 0,
                     ),
                     child: Text(
                       isLogin ? 'Sign In' : 'Sign Up',
@@ -223,8 +244,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
+
                   const SizedBox(height: 16),
-                  // Switch Login / Sign Up
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -238,7 +260,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         onTap: () {
                           setState(() {
                             isLogin = !isLogin;
-                            // مسح الحقول عند التبديل
                             emailController.clear();
                             passwordController.clear();
                           });
@@ -272,14 +293,6 @@ class _LoginScreenState extends State<LoginScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.05),
-            spreadRadius: 1,
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
       ),
       child: TextFormField(
         controller: controller,
@@ -300,14 +313,11 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
-          prefixIcon: Icon(prefixIcon, color: Colors.grey.shade500, size: 22),
+          prefixIcon: Icon(prefixIcon),
           suffixIcon: isPassword
               ? IconButton(
                   icon: Icon(
                     _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                    color: Colors.grey.shade500,
-                    size: 20,
                   ),
                   onPressed: () {
                     setState(() {
@@ -320,7 +330,6 @@ class _LoginScreenState extends State<LoginScreen> {
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide.none,
           ),
-          contentPadding: const EdgeInsets.symmetric(vertical: 16),
         ),
       ),
     );
